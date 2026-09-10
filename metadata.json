@@ -1,0 +1,8 @@
+{
+  "name": "RailSync",
+  "description": "Intelligent Railway Maintenance Block Planning & Constraint Optimization System",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

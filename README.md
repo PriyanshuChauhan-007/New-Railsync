@@ -1,11 +1,21 @@
-<div align="center">
+# RailSync
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+SIH26027 prototype for integrated railway maintenance block planning.
 
-  <h1>Built with AI Studio</h2>
+## Stack
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- Python
+- Google OR-Tools CP-SAT
+- FastAPI
+- React
+- CSV / JSON
+- NetworkX where required
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Team Development
 
-</div>
+Read these files before development:
+
+- PROJECT_SPEC.md
+- CONTRACTS.md
+
+Do not modify shared contracts without team discussion.

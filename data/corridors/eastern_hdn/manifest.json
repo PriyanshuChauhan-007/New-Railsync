@@ -1,0 +1,9 @@
+{
+  "territory_id": "eastern_hdn",
+  "display_name": "Eastern HDN",
+  "description": "Reserved for a future verified public-data-backed Eastern HDN territory.",
+  "status": "PLACEHOLDER",
+  "provenance": [],
+  "datasets": {},
+  "scenario_references": []
+}
