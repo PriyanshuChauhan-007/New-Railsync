@@ -355,6 +355,7 @@ def run_optimization(request: OptimizeRequest | None = None):
             horizon_hours=request.horizon_hours,
             risk_mode=request.risk_mode,
             risk_profiles=[p.model_dump() for p in request.risk_profiles],
+            suburban_curfew=request.suburban_curfew,
         )
     except Exception as error:
         raise _http_error(error) from error

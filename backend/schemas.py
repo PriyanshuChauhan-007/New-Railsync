@@ -67,6 +67,7 @@ class OptimizeRequest(BaseModel):
     horizon_hours: Optional[int] = Field(default=None, gt=0)
     risk_mode: Literal["STATIC", "ML_ASSISTED"] = "STATIC"
     risk_profiles: List[RiskProfileBinding] = Field(default_factory=list, max_length=100)
+    suburban_curfew: bool = False
 
 class TrainDelayScenario(BaseModel):
     model_config = ConfigDict(extra="forbid")

@@ -18,6 +18,7 @@ def compare_plans(
     compatibility_policy=CompatibilityPolicy(), time_limit_seconds=None,
     stage_time_limit_seconds=None,
     risk_penalties=None,
+    suburban_curfew=False,
 ):
     """Same solver/inputs/objectives; only possession sharing differs.
 
@@ -33,6 +34,7 @@ def compare_plans(
             diagnostics=diagnostics, time_limit_seconds=time_limit_seconds,
             stage_time_limit_seconds=stage_time_limit_seconds,
             risk_penalties=risk_penalties,
+            suburban_curfew=suburban_curfew,
         )
         if plan["status"] != "success":
             raise RuntimeError(f"{name} planning failed: {plan['status']}")

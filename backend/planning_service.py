@@ -411,6 +411,7 @@ def optimize_registered_territory(
     risk_profiles=(),
     task_overrides: list[dict[str, Any]] | None = None,
     parent_plan_id: str | None = None,
+    suburban_curfew: bool = False,
 ) -> dict[str, Any]:
     """Run the existing fair comparison for one registered planning input."""
     if profile != SUPPORTED_PROFILE:
@@ -454,6 +455,7 @@ def optimize_registered_territory(
             allowances=DEMO_ALLOWANCES,
             time_limit_seconds=DEMO_SOLVE_LIMIT_SECONDS,
             risk_penalties=penalties,
+            suburban_curfew=suburban_curfew,
         )
     except RuntimeError as error:
         raise PlanningExecutionError(str(error)) from error

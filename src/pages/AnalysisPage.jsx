@@ -1,5 +1,6 @@
 import Navbar from "../components/layout/Navbar.jsx";
 import ComparisonSummary, { ComparisonDetails } from "../components/analysis/ComparisonSummary.jsx";
+import FinancialImpactCard from "../components/analysis/FinancialImpactCard.jsx";
 import DataAssumptions from "../components/analysis/DataAssumptions.jsx";
 import IntegrationGains from "../components/analysis/IntegrationGains.jsx";
 import OutstandingWork from "../components/analysis/OutstandingWork.jsx";
@@ -49,6 +50,7 @@ export default function AnalysisPage({ session, onNavigate, onHome, theme, onTog
         {plan?.analysis ? (
           <>
             <ComparisonSummary analysis={plan.analysis} />
+            <FinancialImpactCard analysis={plan.analysis} />
             <RiskResult risk={plan.risk} />
             <PairedPossessionTimeline
               analysis={plan.analysis}

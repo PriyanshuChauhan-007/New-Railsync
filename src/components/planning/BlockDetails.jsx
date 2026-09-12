@@ -6,6 +6,7 @@ import {
 } from "../../utils/planningLabels.js";
 import { durationMinutes, timeLabel } from "../../utils/timeline.js";
 import { transitionBlock } from "../../services/api.js";
+import JointSanctionModal from "./JointSanctionModal.jsx";
 
 function formatTimestamp(timestamp) {
   if (!timestamp) return "—";
@@ -33,6 +34,7 @@ function resourceSummary(task, resource) {
 export default function BlockDetails({ block, diagnostic, tasks, territory, identity, onUpdateBlock }) {
   const [transitioning, setTransitioning] = useState(false);
   const [transitionError, setTransitionError] = useState(null);
+  const [showSanctionModal, setShowSanctionModal] = useState(false);
   const taskById = new Map(tasks.map((task) => [task.task_id, task]));
 
   if (!block) {
@@ -180,6 +182,19 @@ export default function BlockDetails({ block, diagnostic, tasks, territory, iden
                   ✓ Complete & Certify Track Clear
                 </button>
               )}
+              <button
+                type="button"
+                className="noc-theme-toggle"
+                onClick={() => setShowSanctionModal(true)}
+                title="Generate Indian Railways Joint Sanction Notice (T/409 memo) under G&SR 4.09"
+                style={{
+                  border: "1px solid var(--train)",
+                  color: "var(--train)",
+                  fontWeight: 600,
+                }}
+              >
+                📋 Joint Sanction Notice (T/409)
+              </button>
             </div>
             {transitionError && <div style={{ color: "var(--critical)", fontSize: "11px", marginTop: "4px" }}>{transitionError}</div>}
           </div>
@@ -258,6 +273,38 @@ export default function BlockDetails({ block, diagnostic, tasks, territory, iden
           <strong className="slack-value">{minSlack != null ? `${minSlack} min` : "Unavailable"}</strong>
         </div>
 
+        {/* Indian Railways Machine Logistics & Worksite Dispatch */}
+        <div className="block-machine-logistics" style={{ margin: "14px 0", padding: "12px", border: "1px solid var(--line)", background: "var(--paper)", borderRadius: "2px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", textTransform: "uppercase", fontWeight: 700, color: "var(--train)" }}>
+              🚂 Machine Transit & Worksite Logistics
+            </span>
+            <span style={{ fontSize: "10px", padding: "2px 6px", background: "rgba(30, 90, 138, 0.1)", color: "var(--train)", borderRadius: "2px", fontWeight: 600 }}>
+              G&amp;SR 4.09 Compliant
+            </span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "12px" }}>
+            <div>
+              <span style={{ color: "var(--muted)", display: "block", fontSize: "10px", textTransform: "uppercase" }}>Machine Consist</span>
+              <strong>{[...new Set(blockTasks.map((t) => t.machine_type).filter(Boolean))].join(", ") || "Standard Maintenance Gang (Hand-held)"}</strong>
+            </div>
+            <div>
+              <span style={{ color: "var(--muted)", display: "block", fontSize: "10px", textTransform: "uppercase" }}>Worksite Transit Time</span>
+              <strong style={{ fontFamily: "var(--font-mono)" }}>15 min setup + 15 min clearing</strong>
+            </div>
+            <div>
+              <span style={{ color: "var(--muted)", display: "block", fontSize: "10px", textTransform: "uppercase" }}>Assigned Crew Base</span>
+              <strong>{[...new Set(blockTasks.map((t) => t.crew_type).filter(Boolean))].join(", ") || "Deputed SSE Section Gang"}</strong>
+            </div>
+            <div>
+              <span style={{ color: "var(--muted)", display: "block", fontSize: "10px", textTransform: "uppercase" }}>OHE Power Isolation</span>
+              <strong style={{ color: block.power_isolation_zone_id ? "var(--block)" : "var(--confirm)" }}>
+                {block.power_isolation_zone_id ? `Active Zone (${block.power_isolation_zone_id})` : "No Isolation Required"}
+              </strong>
+            </div>
+          </div>
+        </div>
+
         {/* PROGRESSIVE DISCLOSURE: Technical explanation */}
         <details className="block-technical-details">
           <summary>
@@ -331,6 +378,16 @@ export default function BlockDetails({ block, diagnostic, tasks, territory, iden
           </div>
         </details>
       </div>
+
+      {showSanctionModal && (
+        <JointSanctionModal
+          block={block}
+          tasks={tasks}
+          territory={territory}
+          identity={identity}
+          onClose={() => setShowSanctionModal(false)}
+        />
+      )}
     </section>
   );
 }

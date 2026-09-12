@@ -170,12 +170,12 @@ export function openPrintReport(blocks) {
   return downloadExport("/export/print", blocks, "railsync-plan.html", { print: true });
 }
 
-export function optimizePlan(territoryId, { signal, risk_mode = "STATIC", risk_profiles = [] } = {}) {
+export function optimizePlan(territoryId, { signal, risk_mode = "STATIC", risk_profiles = [], suburban_curfew = false } = {}) {
   return request("/optimize", {
     method: "POST",
     signal,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ territory_id: territoryId, risk_mode, risk_profiles }),
+    body: JSON.stringify({ territory_id: territoryId, risk_mode, risk_profiles, suburban_curfew }),
   });
 }
 

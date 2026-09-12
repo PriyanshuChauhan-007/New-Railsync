@@ -146,6 +146,7 @@ export function solveTerritoryPlan(
     risk_profiles?: any[];
     task_overrides?: any[];
     parent_plan_id?: string | null;
+    suburban_curfew?: boolean;
   } = {}
 ) {
   const horizon = territory.manifest.planning_horizon;
@@ -206,6 +207,17 @@ export function solveTerritoryPlan(
       const winStart = parseDate(win.usable_start);
       const winEnd = parseDate(win.usable_end);
       const winDuration = win.usable_minutes;
+
+      // Suburban peak hour curfew enforcement: 08:00–10:30 & 17:00–19:30
+      if (options.suburban_curfew) {
+        const startHourDec = winStart.getHours() + winStart.getMinutes() / 60;
+        const endHourDec = winEnd.getHours() + winEnd.getMinutes() / 60;
+        const inMorningPeak = !(endHourDec <= 8.0 || startHourDec >= 10.5);
+        const inEveningPeak = !(endHourDec <= 17.0 || startHourDec >= 19.5);
+        if (inMorningPeak || inEveningPeak) {
+          continue; // Skip window under suburban peak hour curfew
+        }
+      }
 
       // Find compatible tasks that fit into this window
       const cluster: MaintenanceTask[] = [];

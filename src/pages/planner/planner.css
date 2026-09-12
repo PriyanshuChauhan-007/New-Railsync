@@ -2517,3 +2517,271 @@
   font-family: var(--font-mono);
 }
 
+/* ---------- T/409 Joint Sanction Modal Styling ---------- */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(12, 29, 50, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.t409-modal-container {
+  width: min(100%, 860px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.t409-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--navy);
+  color: #fff;
+}
+
+.t409-toolbar-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge-t409 {
+  background: #f59e0b;
+  color: #000;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+.t409-toolbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-t409-print {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.btn-t409-print:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.btn-t409-close {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+.t409-paper {
+  padding: 32px 36px;
+  background: #fff;
+  color: #111;
+  overflow-y: auto;
+  font-family: var(--font-sans);
+  line-height: 1.45;
+}
+
+.t409-header {
+  text-align: center;
+  border-bottom: 2px solid #111;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.t409-crest {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.t409-main-title {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: var(--font-serif);
+  color: #0c1d32;
+  margin: 4px 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.t409-subtitle {
+  font-size: 12px;
+  font-style: italic;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.t409-meta-strip {
+  display: flex;
+  justify-content: space-between;
+  background: #f4f2ec;
+  padding: 8px 14px;
+  font-size: 11px;
+  border: 1px solid #ddd9d0;
+}
+
+.t409-section {
+  margin-bottom: 20px;
+}
+
+.t409-section-head {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0c1d32;
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.t409-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.t409-table th,
+.t409-table td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.t409-table th {
+  background: #f8f7f3;
+  font-weight: 700;
+  width: 25%;
+  color: #222;
+}
+
+.t409-table thead th {
+  width: auto;
+  background: #ebe7df;
+}
+
+.t409-resource-box {
+  background: #fbfbf9;
+  border: 1px solid #e0ded8;
+  padding: 10px 14px;
+  font-size: 12px;
+  display: grid;
+  gap: 6px;
+}
+
+.t409-terms {
+  font-size: 11px;
+  color: #333;
+  line-height: 1.5;
+  background: #f9f9f7;
+  padding: 10px;
+  border-left: 3px solid #0c1d32;
+  margin-bottom: 16px;
+}
+
+.t409-signatures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 12px;
+}
+
+.sig-block {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.sig-line {
+  border-bottom: 1px solid #444;
+  height: 36px;
+  margin-bottom: 6px;
+}
+
+.sig-role {
+  font-size: 11px;
+  font-weight: 700;
+  color: #111;
+}
+
+.sig-sub {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.t409-footer {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px dashed #bbb;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #666;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .modal-backdrop,
+  .t409-paper,
+  .t409-paper * {
+    visibility: visible;
+  }
+  .modal-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    padding: 0;
+  }
+  .t409-toolbar {
+    display: none;
+  }
+  .t409-modal-container {
+    box-shadow: none;
+    border: 0;
+    max-height: none;
+  }
+}
+
+

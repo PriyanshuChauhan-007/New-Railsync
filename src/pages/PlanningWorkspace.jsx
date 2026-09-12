@@ -68,6 +68,7 @@ export default function PlanningWorkspace({ session, setSession, onNavigate, onH
     session.plan ? "success" : session.optimizationError ? "error" : "idle",
   );
   const [optimizationError, setOptimizationError] = useState(session.optimizationError);
+  const [suburbanCurfew, setSuburbanCurfew] = useState(false);
   const [plan, setPlan] = useState(session.plan);
   const optimizeRequestId = useRef(0);
   const optimizeController = useRef(null);
@@ -220,6 +221,7 @@ export default function PlanningWorkspace({ session, setSession, onNavigate, onH
       const result = await optimizePlan(territoryId, {
         signal: controller.signal,
         ...riskOptions(session.riskConfig),
+        suburban_curfew: suburbanCurfew,
       });
       if (requestId !== optimizeRequestId.current) return;
 
@@ -395,6 +397,8 @@ export default function PlanningWorkspace({ session, setSession, onNavigate, onH
                   onOptimize={runOptimization}
                   canOptimize={dataReady}
                   tasks={dataState.tasks}
+                  suburbanCurfew={suburbanCurfew}
+                  onToggleSuburbanCurfew={setSuburbanCurfew}
                 />
               </aside>
             </div>

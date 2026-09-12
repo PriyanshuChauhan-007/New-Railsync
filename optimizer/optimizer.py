@@ -282,6 +282,7 @@ def optimize_schedule(
     previous_blocks: list[dict[str, Any]] | None = None,
     fixed_task_starts: dict[str, str] | None = None,
     risk_penalties: dict[tuple[str, str], float] | None = None,
+    suburban_curfew: bool = False,
 ) -> dict[str, Any]:
     """Reserve setup/work/release in feasible windows; return full possession blocks."""
     planning_started = perf_counter()
@@ -424,6 +425,43 @@ def optimize_schedule(
             model.AddBoolOr([scheduled.Not(), before_train, after_train])
             model.AddImplication(before_train, scheduled)
             model.AddImplication(after_train, scheduled)
+
+        # Suburban Peak Hour Curfew: No maintenance possessions permitted during commuter rush hours (08:00-10:30 & 17:00-19:30)
+        if suburban_curfew:
+            curfew_windows_clock = [(8, 0, 10, 30), (17, 0, 19, 30)]
+            horizon_date = horizon_start_dt.date()
+            for start_h, start_m, end_h, end_m in curfew_windows_clock:
+                # Check for same day and next day in case horizon crosses midnight
+                for day_offset in range(2):
+                    curfew_start_dt = datetime.combine(
+                        horizon_date,
+                        datetime.min.time()
+                    ).replace(hour=start_h, minute=start_m, tzinfo=horizon_start_dt.tzinfo)
+                    if day_offset > 0:
+                        from datetime import timedelta
+                        curfew_start_dt += timedelta(days=day_offset)
+                    curfew_end_dt = datetime.combine(
+                        horizon_date,
+                        datetime.min.time()
+                    ).replace(hour=end_h, minute=end_m, tzinfo=horizon_start_dt.tzinfo)
+                    if day_offset > 0:
+                        from datetime import timedelta
+                        curfew_end_dt += timedelta(days=day_offset)
+
+                    c_start_min = datetime_to_minutes(curfew_start_dt, horizon_start_dt)
+                    c_end_min = datetime_to_minutes(curfew_end_dt, horizon_start_dt)
+
+                    # Only apply if curfew interval overlaps the planning horizon
+                    if c_end_min > 0 and c_start_min < horizon_minutes:
+                        p_start = max(0, c_start_min)
+                        p_end = min(horizon_minutes, c_end_min)
+                        before_curfew = model.NewBoolVar(f"task_{task_index}_before_curfew_{start_h}_{day_offset}")
+                        after_curfew = model.NewBoolVar(f"task_{task_index}_after_curfew_{start_h}_{day_offset}")
+                        model.Add(end <= p_start).OnlyEnforceIf([scheduled, before_curfew])
+                        model.Add(start >= p_end).OnlyEnforceIf([scheduled, after_curfew])
+                        model.AddBoolOr([scheduled.Not(), before_curfew, after_curfew])
+                        model.AddImplication(before_curfew, scheduled)
+                        model.AddImplication(after_curfew, scheduled)
 
     possession_variables = build_possessions(
         model, maintenance_tasks, task_variables, horizon_minutes, allowances,

@@ -238,6 +238,7 @@ async function startServer() {
       const solution = solveTerritoryPlan(territory, {
         risk_mode: req.body?.risk_mode,
         risk_profiles: req.body?.risk_profiles,
+        suburban_curfew: Boolean(req.body?.suburban_curfew),
       });
 
       const identity = registerPlan(territoryId, solution);

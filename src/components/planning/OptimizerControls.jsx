@@ -26,6 +26,8 @@ export default function OptimizerControls({
   onOptimize,
   canOptimize,
   tasks,
+  suburbanCurfew = false,
+  onToggleSuburbanCurfew,
 }) {
   const taskById = new Map(tasks.map((task) => [task.task_id, task]));
   const busy = optimizationStatus === "loading";
@@ -53,6 +55,60 @@ export default function OptimizerControls({
       <div className="planner-field-readonly">
         <span>Planning horizon</span>
         <strong>{formatHorizonText(horizon)}</strong>
+      </div>
+
+      {/* Suburban Peak Curfew Policy Toggle */}
+      <div
+        className="planner-curfew-control"
+        style={{
+          margin: "12px 0",
+          padding: "12px 14px",
+          background: "var(--paper)",
+          border: "1px solid var(--line)",
+          borderRadius: "var(--radius)",
+        }}
+      >
+        <label
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "10px",
+            cursor: "pointer",
+            fontSize: "13px",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={suburbanCurfew}
+            onChange={(e) => onToggleSuburbanCurfew?.(e.target.checked)}
+            disabled={busy}
+            style={{ marginTop: "3px", cursor: "pointer" }}
+          />
+          <div>
+            <strong style={{ display: "block", color: "var(--navy)", fontSize: "12px" }}>
+              Suburban Peak Hour Curfew
+            </strong>
+            <span style={{ fontSize: "11px", color: "var(--muted)", lineHeight: 1.4, display: "block", marginTop: "2px" }}>
+              Strictly ban possessions during rush hours (08:00–10:30 &amp; 17:00–19:30) to safeguard commuter operations.
+            </span>
+          </div>
+        </label>
+        {suburbanCurfew && (
+          <div
+            style={{
+              marginTop: "8px",
+              padding: "4px 8px",
+              background: "rgba(180, 83, 9, 0.1)",
+              color: "var(--block)",
+              fontSize: "10px",
+              fontWeight: 700,
+              borderRadius: "2px",
+              fontFamily: "var(--font-mono)",
+            }}
+          >
+            ACTIVE CP-SAT CURFEW ENFORCEMENT
+          </div>
+        )}
       </div>
 
       <Button
